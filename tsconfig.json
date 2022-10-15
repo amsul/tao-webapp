@@ -22,7 +22,7 @@
 		"noImplicitThis": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndecedAccess": true,
+		"noUncheckedIndexedAccess": true,
 		"allowJs": true,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
