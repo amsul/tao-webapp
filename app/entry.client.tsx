@@ -38,7 +38,7 @@ const hydrate = () => {
 	})
 }
 
-if (window.requestIdleCallback) {
+if (window.requestIdleCallback != null) {
 	window.requestIdleCallback(hydrate)
 } else {
 	// Safari doesn't support requestIdleCallback

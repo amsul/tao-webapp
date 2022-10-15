@@ -1,5 +1,4 @@
-import { css, withEmotionCache } from '@emotion/react'
-import styled from '@emotion/styled'
+import { withEmotionCache } from '@emotion/react'
 import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
@@ -19,6 +18,7 @@ import ClientStyleContext from '~/styles/client.context'
 import ServerStyleContext from '~/styles/server.context'
 
 export const links: LinksFunction = () => {
+	const weights = [100, 400, 600, 800, 900]
 	return [
 		{
 			rel: 'preconnect',
@@ -31,7 +31,13 @@ export const links: LinksFunction = () => {
 		},
 		{
 			rel: 'stylesheet',
-			href: 'https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,400;0,600;0,800;0,900;1,100;1,400;1,600;1,800;1,900&display=swap',
+			href: [
+				'https://fonts.googleapis.com/css2?family=Overpass:ital,wght@',
+				weights.map((weight) => `0,${weight}`).join(';'),
+				';',
+				weights.map((weight) => `1,${weight}`).join(';'),
+				'&display=swap',
+			].join(''),
 		},
 		{
 			rel: 'stylesheet',
@@ -76,12 +82,12 @@ const Document = withEmotionCache(
 
 			// reset cache to re-apply global styles
 			clientStyleData.reset()
-		}, [])
+		}, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 		return (
 			<html lang='en'>
 				<head>
-					{title ? <title>{title}</title> : null}
+					{title != null ? <title>{title}</title> : null}
 					<Meta />
 					<Links />
 					{serverStyleData?.map(({ key, ids, css }) => (

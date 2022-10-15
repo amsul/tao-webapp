@@ -38,9 +38,9 @@ export default function NewNotePage() {
 	const bodyRef = React.useRef<HTMLTextAreaElement>(null)
 
 	React.useEffect(() => {
-		if (actionData?.errors?.title) {
+		if (actionData?.errors?.title != null) {
 			titleRef.current?.focus()
-		} else if (actionData?.errors?.body) {
+		} else if (actionData?.errors?.body != null) {
 			bodyRef.current?.focus()
 		}
 	}, [actionData])
@@ -62,13 +62,13 @@ export default function NewNotePage() {
 						ref={titleRef}
 						name='title'
 						className='flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose'
-						aria-invalid={actionData?.errors?.title ? true : undefined}
+						aria-invalid={actionData?.errors?.title != null ? true : undefined}
 						aria-errormessage={
-							actionData?.errors?.title ? 'title-error' : undefined
+							actionData?.errors?.title != null ? 'title-error' : undefined
 						}
 					/>
 				</label>
-				{actionData?.errors?.title && (
+				{actionData?.errors?.title != null && (
 					<div
 						className='pt-1 text-red-700'
 						id='title-error'
@@ -86,13 +86,13 @@ export default function NewNotePage() {
 						name='body'
 						rows={8}
 						className='w-full flex-1 rounded-md border-2 border-blue-500 py-2 px-3 text-lg leading-6'
-						aria-invalid={actionData?.errors?.body ? true : undefined}
+						aria-invalid={actionData?.errors?.body != null ? true : undefined}
 						aria-errormessage={
-							actionData?.errors?.body ? 'body-error' : undefined
+							actionData?.errors?.body != null ? 'body-error' : undefined
 						}
 					/>
 				</label>
-				{actionData?.errors?.body && (
+				{actionData?.errors?.body != null && (
 					<div
 						className='pt-1 text-red-700'
 						id='body-error'

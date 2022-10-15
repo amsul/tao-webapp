@@ -34,10 +34,14 @@ export async function getUserId(
 
 export async function getUser(request: Request) {
 	const userId = await getUserId(request)
-	if (userId === undefined) return null
+	if (userId === undefined) {
+		return null
+	}
 
 	const user = await getUserById(userId)
-	if (user) return user
+	if (user) {
+		return user
+	}
 
 	throw await logout(request)
 }
@@ -47,7 +51,7 @@ export async function requireUserId(
 	redirectTo: string = new URL(request.url).pathname,
 ) {
 	const userId = await getUserId(request)
-	if (!userId) {
+	if (userId == null) {
 		const searchParams = new URLSearchParams([['redirectTo', redirectTo]])
 		throw redirect(`/login?${searchParams}`)
 	}
@@ -58,7 +62,9 @@ export async function requireUser(request: Request) {
 	const userId = await requireUserId(request)
 
 	const user = await getUserById(userId)
-	if (user) return user
+	if (user) {
+		return user
+	}
 
 	throw await logout(request)
 }

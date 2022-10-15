@@ -27,7 +27,6 @@ const baseStyles = css`
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 
-		font-family: Overpass, sans-serif;
 		font-weight: 400;
 
 		&.ReactModal__Body--open {

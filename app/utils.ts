@@ -16,7 +16,7 @@ export function safeRedirect(
 	to: FormDataEntryValue | string | null | undefined,
 	defaultRedirect: string = DEFAULT_REDIRECT,
 ) {
-	if (!to || typeof to !== 'string') {
+	if (to == null || typeof to !== 'string') {
 		return defaultRedirect
 	}
 
@@ -45,7 +45,9 @@ export function useMatchesData(
 }
 
 function isUser(user: any): user is User {
-	return user && typeof user === 'object' && typeof user.email === 'string'
+	return (
+		user != null && typeof user === 'object' && typeof user.email === 'string'
+	)
 }
 
 export function useOptionalUser(): User | undefined {

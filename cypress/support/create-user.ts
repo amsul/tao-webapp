@@ -11,8 +11,8 @@ import { createUserSession } from '~/session.server'
 
 installGlobals()
 
-async function createAndLogin(email: string) {
-	if (!email) {
+async function createAndLogin(email?: string) {
+	if (email == null || email === '') {
 		throw new Error('email required for login')
 	}
 	if (!email.endsWith('@example.com')) {
@@ -29,7 +29,7 @@ async function createAndLogin(email: string) {
 	})
 
 	const cookieValue = response.headers.get('Set-Cookie')
-	if (!cookieValue) {
+	if (cookieValue == null || cookieValue === '') {
 		throw new Error('Cookie missing from createUserSession response')
 	}
 	const parsedCookie = parse(cookieValue)

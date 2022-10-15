@@ -1,9 +1,19 @@
 {
-	"exclude": ["./cypress", "./cypress.config.ts"],
-	"include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["./node_modules/cypress", "./cypress"],
+	"include": [
+		"remix.env.d.ts",
+		"./.eslintrc.js",
+		"./cypress.config.ts",
+		"./remix.config.js",
+		"./mocks/*.js",
+		"**/*.json",
+		"**/*.ts",
+		"**/*.tsx"
+	],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2019"],
 		"types": ["vitest/globals"],
+		"typeRoots": ["./node_modules/@types"],
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"jsx": "react-jsx",
@@ -30,8 +40,6 @@
 			"~/*": ["./app/*"]
 		},
 		"skipLibCheck": true,
-
-		// Remix takes care of building everything in `remix build`.
 		"noEmit": true
 	}
 }
