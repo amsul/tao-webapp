@@ -1,9 +1,15 @@
+import { CacheProvider } from '@emotion/react'
+import createEmotionServer from '@emotion/server/create-instance'
 import type { EntryContext } from '@remix-run/node'
 import { Response } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import isbot from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import { PassThrough } from 'stream'
+
+import createEmotionCache from '~/styles/createEmotionCache'
+import ServerStyleContext from '~/styles/server.context'
 
 const ABORT_DELAY = 5000
 
@@ -17,14 +23,34 @@ export default function handleRequest(
 		? 'onAllReady'
 		: 'onShellReady'
 
+	const cache = createEmotionCache()
+	const { extractCriticalToChunks } = createEmotionServer(cache)
+
+	const htmlString = renderToString(
+		<ServerStyleContext.Provider value={null}>
+			<CacheProvider value={cache}>
+				<RemixServer
+					context={remixContext}
+					url={request.url}
+				/>
+			</CacheProvider>
+		</ServerStyleContext.Provider>,
+	)
+
+	const chunks = extractCriticalToChunks(htmlString)
+
 	return new Promise((resolve, reject) => {
 		let didError = false
 
 		const { pipe, abort } = renderToPipeableStream(
-			<RemixServer
-				context={remixContext}
-				url={request.url}
-			/>,
+			<ServerStyleContext.Provider value={chunks.styles}>
+				<CacheProvider value={cache}>
+					<RemixServer
+						context={remixContext}
+						url={request.url}
+					/>
+				</CacheProvider>
+			</ServerStyleContext.Provider>,
 			{
 				[callbackName]: () => {
 					const body = new PassThrough()
