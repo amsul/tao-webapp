@@ -1,9 +1,12 @@
 {
-	"exclude": ["./node_modules/cypress", "./cypress"],
+	"exclude": [
+		"./node_modules/cypress",
+		"./node_modules/cypress/types",
+		"./cypress"
+	],
 	"include": [
 		"remix.env.d.ts",
 		"./.eslintrc.js",
-		"./cypress.config.ts",
 		"./remix.config.js",
 		"./mocks/*.js",
 		"**/*.json",
@@ -13,7 +16,7 @@
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2019"],
 		"types": ["vitest/globals"],
-		"typeRoots": ["./node_modules/@types"],
+		"typeRoots": ["./node_modules/@types", "./node_modules/vitest"],
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"jsx": "react-jsx",

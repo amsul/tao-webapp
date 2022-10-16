@@ -1,4 +1,5 @@
 import { withEmotionCache } from '@emotion/react'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
@@ -16,6 +17,33 @@ import { getUser } from '~/session.server'
 import RootStyles from '~/styles/RootStyles'
 import ClientStyleContext from '~/styles/client.context'
 import ServerStyleContext from '~/styles/server.context'
+
+const theme = createTheme({
+	typography: {
+		fontFamily: [
+			'Overpass',
+			'-apple-system',
+			'BlinkMacSystemFont',
+			'"Segoe UI"',
+			'Roboto',
+			'"Helvetica Neue"',
+			'Arial',
+			'sans-serif',
+			'"Apple Color Emoji"',
+			'"Segoe UI Emoji"',
+			'"Segoe UI Symbol"',
+		].join(','),
+	},
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: ({ ownerState }) => ({
+					fontWeight: 900,
+				}),
+			},
+		},
+	},
+})
 
 export const links: LinksFunction = () => {
 	const weights = [100, 400, 600, 800, 900]
@@ -114,7 +142,9 @@ const Document = withEmotionCache(
 export default function App() {
 	return (
 		<Document>
-			<Outlet />
+			<ThemeProvider theme={theme}>
+				<Outlet />
+			</ThemeProvider>
 		</Document>
 	)
 }
