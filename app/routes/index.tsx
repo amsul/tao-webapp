@@ -44,13 +44,18 @@ export async function action({ request }: ActionArgs) {
 		)
 	}
 
+	console.log(`Valid sats amount ${amountSats}`)
+
 	const { default: TaoWallet } = await import('tao-wallet')
 	const crypto = await import('crypto')
 	const lnmSecret = crypto.randomBytes(16).toString('hex')
 
+	const network = process.env.TESTNET === 'true' ? 'testnet' : 'mainnet'
+	console.log(`Using network ${network}`)
+
 	const tao = new TaoWallet({
 		lnmSecret,
-		network: process.env.TESTNET === 'true' ? 'testnet' : 'mainnet',
+		network,
 	})
 
 	await tao.login()
